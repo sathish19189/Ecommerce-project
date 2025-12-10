@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Shopping Cart</h1>
+    {% if cart_items %}
+        {% for item in cart_items %}
+        <div class="cart-item">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="{{ item.image }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;">
+                <div>
+                    <h3>{{ item.name }}</h3>
+                    <p>Quantity: {{ item.quantity }}</p>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <p class="price">${{ "%.2f"|format(item.price * item.quantity) }}</p>
+                <a href="/remove-from-cart/{{ item.id }}" class="btn btn-danger" style="margin-top: 0.5rem;">Remove</a>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <div class="cart-total">
+            <h2>Total: ${{ "%.2f"|format(total) }}</h2>
+            <a href="/checkout" class="btn btn-success" style="margin-top: 1rem;">Proceed to Checkout</a>
+        </div>
+    {% else %}
+        <p style="text-align: center; margin: 3rem 0;">Your cart is empty</p>
+        <div style="text-align: center;">
+            <a href="/" class="btn">Continue Shopping</a>
+        </div>
+    {% endif %}
+{% endblock %}

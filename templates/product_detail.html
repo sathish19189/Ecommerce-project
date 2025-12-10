@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="product-detail">
+        <div>
+            <img src="{{ product.image }}" alt="{{ product.name }}">
+        </div>
+        <div>
+            <h1>{{ product.name }}</h1>
+            <p class="price">${{ "%.2f"|format(product.price) }}</p>
+            <p style="margin: 1.5rem 0; line-height: 1.6;">{{ product.description }}</p>
+            <p><strong>Category:</strong> {{ product.category|title }}'s Clothing</p>
+            
+            <form method="POST" action="/add-to-cart/{{ product.id }}" style="margin-top: 2rem;">
+                <div class="form-group">
+                    <label>Quantity:</label>
+                    <input type="number" name="quantity" value="1" min="1" max="10" required>
+                </div>
+                <button type="submit" class="btn btn-success">Add to Cart</button>
+                <a href="/products/{{ product.category }}" class="btn">Back to {{ product.category|title }}'s</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

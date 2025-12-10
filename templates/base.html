@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Fashion Store{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Fashion Store</h1>
+        <div>
+            <a href="/">Home</a>
+            <a href="/products/mens">Men's</a>
+            <a href="/products/womens">Women's</a>
+            <a href="/cart">Cart ({{ session.get('cart', {})|length }})</a>
+            {% if session.get('user') %}
+                {% if session.get('is_admin') %}
+                    <a href="/admin">Admin</a>
+                {% endif %}
+                <a href="/logout">Logout ({{ session.get('user') }})</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/signup">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
